@@ -14,12 +14,15 @@ import optuna
 import pandas as pd
 import xgboost as xgb
 
-
+import datetime
 
 seed = 32
-experiment_id='first_xgb'
+experiment_name='first_xgb'
 
-run_name='first_try'
+time_exec = str(datetime.datetime.now())
+
+
+run_name='run_' + time_exec
 
 def metrics(y_test, y_pred):
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
@@ -38,14 +41,10 @@ optuna.logging.set_verbosity(optuna.logging.ERROR)
 
 def champion_callback(study, frozen_trial):
     """
+    --- code came for doc of mlflow ---
     Logging callback that will report when a new trial iteration improves upon existing
     best trial values.
 
-    Note: This callback is not intended for use in distributed computing systems such as Spark
-    or Ray due to the micro-batch iterative implementation for distributing trials to a cluster's
-    workers or agents.
-    The race conditions with file system state management for distributed trials will render
-    inconsistent values with this callback.
     """
 
     winner = study.user_attrs.get("winner", None)
@@ -64,3 +63,5 @@ def champion_callback(study, frozen_trial):
 
 
 print("CODIGO AUXILIAR EXECUTADO!")
+
+print(f"DATA DE EXECUCAO {time_exec}")

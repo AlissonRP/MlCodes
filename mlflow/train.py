@@ -4,7 +4,7 @@ import mlflow
 %run utils/utils.py
 #%%
 mlflow.set_tracking_uri("http://localhost:8080")
-mlflow.set_experiment(experiment_name=experiment_id)
+mlflow.set_experiment(experiment_name=experiment_name)
 
 
 df = load_diabetes()
@@ -57,7 +57,7 @@ with mlflow.start_run(run_name=run_name, nested=True):
 
     # Execute the hyperparameter optimization trials.
     # Note the addition of the `champion_callback` inclusion to control our logging
-    study.optimize(objective, n_trials=10, callbacks=[champion_callback])
+    study.optimize(objective, n_trials=15, callbacks=[champion_callback])
 
     mlflow.log_params(study.best_params)
     mlflow.log_metric("best_mse", study.best_value)
@@ -66,28 +66,20 @@ with mlflow.start_run(run_name=run_name, nested=True):
     # Log tags
     mlflow.set_tags(
         tags={
-            "project": "Apple Demand Project",
+            "project": "diabetes dataframe",
             "optimizer_engine": "optuna",
             "model_family": "xgboost",
             "feature_set_version": 1,
+            "seed": seed,
+            "execution_time": time_exec
+
         }
     )
 
     # Log a fit model instance
     model = xgb.train(study.best_params, d_train)
 
-    # Log the correlation plot
-    #mlflow.log_figure(figure=correlation_plot, artifact_file="correlation_plot.png")
-
-    # Log the feature importances plot
-    #importances = plot_feature_importance(model, booster=study.best_params.get("booster"))
-    #mlflow.log_figure(figure=importances, artifact_file="feature_importances.png")
-
-    # Log the residuals plot
-    #residuals = plot_residuals(model, dvalid, valid_y)
-    #mlflow.log_figure(figure=residuals, artifact_file="residuals.png")
-
-    #artifact_path = "model"
+    
 
     mlflow.xgboost.log_model(
         xgb_model=model,
@@ -96,6 +88,7 @@ with mlflow.start_run(run_name=run_name, nested=True):
         metadata={"model_data_version": 1},
     )
     mlflow.log_artifact(local_path='train.py', artifact_path='code/train')
+    model_uri = mlflow.get_artifact_uri('code')
 
 
 
