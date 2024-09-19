@@ -1,5 +1,7 @@
 Machine Learning Engineering for Production (MLOps) Specialization
 
+A comunidade de aprendizado de máquina enfrenta um problema: enquanto desenvolver e implantar sistemas ML é rápido e barato, mantê-los é difícil e caro. Esse desafio pode ser explicado pela "dívida técnica", um conceito introduzido por Ward Cunningham em 1992, que se refere aos custos de acelerar o desenvolvimento de software.
+
 ## Week 1
 
 * **Data Drift** : Uma ou mais variável preditora (*x*) mudou de comportamento
