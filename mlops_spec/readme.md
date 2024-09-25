@@ -19,3 +19,12 @@ Um ponto importante é que, em termos de problema negocial, ter uma métrica (de
 -------------
 **É sempre importante estabelecer um baseline**
 
+## Week 3
+
+$$\text{MLops = DataOps + ModelOps + DevOps}$$
+
+Há duas maneiras principais de dar deploy: código ou modelo
+
+## Deploy de código
+
+## Deploy de modelo
